@@ -91,6 +91,7 @@ class LDAPProvider extends \TYPO3\Flow\Security\Authentication\Provider\Persiste
 
 							$this->setRoles($account, $ldapUser);
 							$this->createParty($account, $ldapUser);
+							$this->emitCreateAccount($account, $ldapUser);
 
 							$this->accountRepository->add($account);
 						}
@@ -105,6 +106,8 @@ class LDAPProvider extends \TYPO3\Flow\Security\Authentication\Provider\Persiste
 
 							$this->setRoles($account, $ldapUser);
 							$this->updateParty($account, $ldapUser);
+							$this->emitUpdateAccount($account, $ldapUser);
+
 							$this->accountRepository->update($account);
 
 						} elseif ($authenticationToken->getAuthenticationStatus() !== TokenInterface::AUTHENTICATION_SUCCESSFUL) {
@@ -171,6 +174,28 @@ class LDAPProvider extends \TYPO3\Flow\Security\Authentication\Provider\Persiste
 	 * @return void
 	 */
 	protected function setRoles(\TYPO3\Flow\Security\Account $account, array $ldapSearchResult) {
+	}
+
+	/**
+	 * Signals that an account shall be created
+	 *
+	 * @param \TYPO3\Flow\Security\Account $account
+	 * @param array $ldapSearchResult
+	 * @return void
+	 * @Flow\Signal
+	 */
+	protected function emitCreateAccount(\TYPO3\Flow\Security\Account $account, array $ldapSearchResult) {
+	}
+
+	/**
+	 * Signals that an account shall be updated
+	 *
+	 * @param \TYPO3\Flow\Security\Account $account
+	 * @param array $ldapSearchResult
+	 * @return void
+	 * @Flow\Signal
+	 */
+	protected function emitUpdateAccount(\TYPO3\Flow\Security\Account $account, array $ldapSearchResult) {
 	}
 
 }
